@@ -8,38 +8,22 @@ int main(int argc, char *argv[]){
     fprintf(stderr, "Usage : %s <filename of the public key> <filename of the private key> <size of the key>\n\n", argv[0]);
     exit(EXIT_FAILURE);
   }
+  mp_bitcnt_t size;
+  mpz_t p, q, n;
 
-	mpz_t public_key;
-	mpz_t private_key;
+  size = (mp_bitcnt_t) strtoul(argv[4], NULL, 10);
+  gmp_randstate_t state;
 
-	/* Faire:
-	 * BBS_step dans Blum.c
-	 * genkey.c
-	 * encrypt.c
-	 * decrypt.c */
+  mpz_inits(p, q, n, NULL);
+  gmp_randinit_default(state);
 
-	//read_pub_key(argv[1], public_key);
-	/* read_key(argv[2], private_key ... */
-	//privkeyfn = argv[2]
-	//keysize = argv[3];
-	
-	/* char *reead_plaintext -> (char *){1, 0, 0, 1, 0, ..., 1} */
-  // A completer avant 13 avril
-	/* BBS_Step returns z_i */
-	//read_plaintext();
+  Genpremier(1000, size, state, &p);
+  Genpremier(1000, size, state, &q);
+  mpz_mul(n, p, q);
 
-	/* Génération de clés */
-	// Bob choisit s elem R [1, n-1]
+  write_key(argv[2], p, q);
+  write_pub_key(argv[3], n);
 
-	//x0 = s*s mod n;
-	//mpz_mul(s_squared, s, s);
-
-	/* res = s_squared mod n */
-	//mpz_mod(x_0, s_squared, n);
-
-	/* Génération de la suite chiffrante */
-
-	/* Construction et envoi du chifré */
-	
+  mpz_clears(p, q, n, NULL);
   exit(EXIT_SUCCESS);
 }

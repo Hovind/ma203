@@ -175,10 +175,14 @@ void write_ciphertext(char *file, char *ciphertext, unsigned long size, mpz_t x)
 }
 
 char BBS_step(mpz_t *x, mpz_t n) {
-	
-    // A completer
-	mpz_mul(*x, *x, *x);
-	/* xi = x_(i-1)^2 mod n */
-	mpz_mod(*x, *x, n);
-	return (char) mpz_mod_ui(/**/, x, 2);
+  // À completer
+  char ret;
+  mpz_t z;
+  mpz_init(z);
+  
+  mpz_powm_ui(*x, *x, 2, n);
+  mpz_mod_ui(z, *x, 2);
+  ret = (char) mpz_get_ui(z);
+  mpz_clear(z);
+  return ret;
 }
