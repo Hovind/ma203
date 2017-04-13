@@ -8,12 +8,13 @@ void decrypt_BG(char *file_cipher, char *file_plain, mpz_t p, mpz_t q) {
   char *c, *m;
   mpz_t x, n, d1, d2, a, b, u, v, pminusone, qminusone, tplusone;
 
+  mpz_inits(x, n, d1, d2, a, b, u, v, pminusone, qminusone, tplusone, NULL);
+
   read_ciphertext(file_cipher, &c, &size, &x);
 
-  mpz_inits(x, n, d1, d2, a, b, u, v, pminusone, qminusone, tplusone, NULL);
-  mpz_set_ui(tplusone, size+1);
+  mpz_set_ui(tplusone, size + 1);
   mpz_sub_ui(pminusone, p, 1);
-  mpz_sub_ui(qminusone, p, 1);
+  mpz_sub_ui(qminusone, q, 1);
 
   /* d1 = ((p+1)/4)^(t+1) mod (p-1) */
   mpz_add_ui(d1, p, 1);
@@ -52,7 +53,7 @@ void decrypt_BG(char *file_cipher, char *file_plain, mpz_t p, mpz_t q) {
   mpz_mul(n, p, q);
   mpz_mod(x, x, n);
 
-  mpz_clears(n, d1, d2, a, b, u, v, pminusone, qminusone, tplusone, NULL);
+  mpz_clears(d1, d2, a, b, u, v, pminusone, qminusone, tplusone, NULL);
 
   m = malloc(size * sizeof(*m));
   for (i = 0; i < size; ++i) {
@@ -61,7 +62,7 @@ void decrypt_BG(char *file_cipher, char *file_plain, mpz_t p, mpz_t q) {
   }
   write_plaintext(file_plain, m, size);
 
-  mpz_clear(x);
+  mpz_clears(x, n, NULL);
 
   free(c);
   free(m);

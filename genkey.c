@@ -8,11 +8,14 @@ int main(int argc, char *argv[]){
     fprintf(stderr, "Usage : %s <filename of the public key> <filename of the private key> <size of the key>\n\n", argv[0]);
     exit(EXIT_FAILURE);
   }
+
+  // A completer
+
   mp_bitcnt_t size;
   mpz_t p, q, n;
-
-  size = (mp_bitcnt_t) strtoul(argv[4], NULL, 10);
   gmp_randstate_t state;
+
+  size = (mp_bitcnt_t) strtoul(argv[3], NULL, 10);
 
   mpz_inits(p, q, n, NULL);
   gmp_randinit_default(state);
@@ -22,7 +25,7 @@ int main(int argc, char *argv[]){
   mpz_mul(n, p, q);
 
   write_key(argv[2], p, q);
-  write_pub_key(argv[3], n);
+  write_pub_key(argv[1], n);
 
   mpz_clears(p, q, n, NULL);
   exit(EXIT_SUCCESS);
