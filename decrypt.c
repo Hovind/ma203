@@ -15,12 +15,12 @@ void decrypt_BG(char *file_cipher, char *file_plain, mpz_t p, mpz_t q) {
   mpz_sub_ui(pminusone, p, 1);
   mpz_sub_ui(qminusone, p, 1);
 
-  /*d1 = ((p+1)/4)^(t+1) mod (p-1)*/
+  /* d1 = ((p+1)/4)^(t+1) mod (p-1) */
   mpz_add_ui(d1, p, 1);
   mpz_cdiv_q_ui(d1, d1, 4);
   mpz_powm(d1, d1, tplusone, pminusone);
 
-  /*d2 = ((q+1)/4)^(t+1) mod (q-1)*/
+  /* d2 = ((q+1)/4)^(t+1) mod (q-1) */
   mpz_add_ui(d2, q, 1);
   mpz_cdiv_q_ui(d2, d2, 4);
   mpz_powm(d2, d2, tplusone, qminusone);
@@ -76,7 +76,6 @@ int main(int argc, char *argv[]){
   // A completer
   mpz_t p, q;
   mpz_inits(p, q, NULL);
-  printf("0\n");
 
   read_key(argv[1], &p, &q);
   decrypt_BG(argv[2], argv[3], p, q);

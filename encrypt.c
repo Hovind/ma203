@@ -20,7 +20,7 @@ void encrypt_BG(char *file_plain, char *file_cipher, mpz_t n) {
   mpz_add_ui(x, x, 1);
   /* x elem [1, n-1] */
 
-  /* x = s^2 mod n where s elem [1, n-1] */
+  /* x0 = s^2 mod n where s elem [1, n-1] */
   BBS_step(&x, n);
   
   c = malloc(size * sizeof(*c));  
@@ -29,6 +29,8 @@ void encrypt_BG(char *file_plain, char *file_cipher, mpz_t n) {
     char z = BBS_step(&x, n);
     c[i] = z ^ plaintext[i];
   }
+
+  BBS_step(&x, n);
   write_ciphertext(file_cipher, c, size, x);
 
   mpz_clears(x, nminusone, NULL);
